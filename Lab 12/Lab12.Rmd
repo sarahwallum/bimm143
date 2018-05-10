@@ -29,3 +29,25 @@ write.pdb(prot, file="1hsg_protein.pdb")
 write.pdb(lig, "1hsg_ligand.pdb")
 ```
 
+```{r}
+library(bio3d) 
+res <- read.pdb("all.pdbqt", multi=TRUE)
+write.pdb(res, "results.pdb")
+```
+
+## RMSD (root mean square distance) of our results 'res' to Merck compound
+```{r}
+res <- read.pdb("all.pdbqt", multi=TRUE) 
+ori <- read.pdb("ligand.pdbqt")
+rmsd(ori, res)
+```
+
+Select non-hydrogen atoms from our docking result file
+```{r}
+inds.res <- atom.select(res, "noh")
+merck <- atom.select(lig, "noh")
+res$xyz[,inds.res$xyz]
+rmsd(lig, res$xyz[, inds.res$xyz])
+
+```
+
