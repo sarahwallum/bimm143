@@ -1,0 +1,57 @@
+---
+title: "Bioinformatics Class 13"
+author: "Sarah Wallum"
+date: "5/15/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1000 genomes data analysis 
+
+Download genotype data from ensemble 
+```{r}
+genotype <- read.csv("373531-SampleGenotypes-Homo_sapiens_Variation_Sample_rs8067378.csv")
+head(genotype)
+```
+
+How many of each genotype are in this dataset?
+```{r}
+genotype.summary <- table(genotype[,2])
+genotype.summary
+```
+
+Proportion of each genotype
+```{r}
+genotype.summary/nrow(genotype)
+```
+
+Sidenote on fastq quality
+```{r}
+install.packages("seqinr")
+install.packages("gtools")
+library(seqinr)
+library(gtools)
+phred <- asc( s2c("DDDDCDEDCDDDDBBDDDCC@") ) - 33
+phred
+```
+```{r}
+prob <- 10**(-phred/10)
+```
+
+Section 4
+```{r}
+results <- read.table("rs8067378_ENSG00000172057.6.txt")
+table(results$geno)
+nrow(results)
+boxplot(results)
+summary(results)
+summary(results$exp[results$geno=="G/G"])
+?boxplot
+boxplot(exp ~ geno, data=results, notch=TRUE)
+library(ggplot2)
+ggplot(results, aes(geno, exp)) + geom_boxplot()
+```
+
