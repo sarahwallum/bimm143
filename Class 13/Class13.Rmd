@@ -30,8 +30,8 @@ genotype.summary/nrow(genotype)
 
 Sidenote on fastq quality
 ```{r}
-install.packages("seqinr")
-install.packages("gtools")
+#install.packages("seqinr")
+#install.packages("gtools")
 library(seqinr)
 library(gtools)
 phred <- asc( s2c("DDDDCDEDCDDDDBBDDDCC@") ) - 33
